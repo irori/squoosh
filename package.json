@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --host 0.0.0.0 --hot",
     "build": "webpack -p",
+    "webbundle": "webpack -p && gen-bundle -baseURL https://squoosh.app/ -dir build -manifestURL https://squoosh.app/manifest.json -primaryURL https://squoosh.app/ -o squoosh.wbn",
     "lint": "tslint -c tslint.json  -p tsconfig.json -t verbose",
     "lintfix": "tslint -c tslint.json -p tsconfig.json -t verbose --fix 'src/**/*.{ts,tsx,js,jsx}'",
     "sizereport": "sizereport --config"

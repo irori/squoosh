@@ -27,6 +27,17 @@ interface ProcessingJobOptions {
   needsWorker?: boolean;
 }
 
+const originalWorker = (window as any).Worker;
+(window as any).Worker = class {
+  constructor(url: string, ...args: any[]) {
+    const scriptURL = new URL(url, document.baseURI);
+    console.log(scriptURL);
+    const blob = new Blob(['importScripts("' + scriptURL.toString() + '");'],
+                          {type: 'text/javascript'});
+    return new originalWorker(window.URL.createObjectURL(blob), ...args);
+  }
+}
+
 export default class Processor {
   /** Worker instance associated with this processor. */
   private _worker?: Worker;

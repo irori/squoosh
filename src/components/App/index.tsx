@@ -20,7 +20,11 @@ const swBridgePromise = import(
   '../../lib/sw-bridge');
 
 function back() {
-  window.history.back();
+  // window.history.back();
+
+  // HACK: Make the back button somehow work, even though history.pushState()
+  // is commented out.
+  location.reload();
 }
 
 interface Props {}
@@ -113,7 +117,8 @@ export default class App extends Component<Props, State> {
     // Change path, but preserve query string.
     const editorURL = new URL(location.href);
     editorURL.pathname = ROUTE_EDITOR;
-    history.pushState(null, '', editorURL.href);
+    // history.pushState doesn't work from wbn.
+    // history.pushState(null, '', editorURL.href);
     this.setState({ isEditorOpen: true });
   }
 

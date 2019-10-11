@@ -2,6 +2,20 @@ import { expose } from 'comlink';
 import { isHqx } from '../resize/processor-meta';
 import { clamp } from '../util';
 
+const baseURL = 'https://squoosh.app/';
+
+const originalImportScripts = (self as any).importScripts;
+(self as any).importScripts = (script: string) => {
+  console.log('import ', script);
+  originalImportScripts(new URL(script, baseURL));
+}
+
+const originalFetch = (self as any).fetch;
+(self as any).fetch = (url: string, ...args: any[]) => {
+  console.log('fetch ', url);
+  return originalFetch(new URL(url, baseURL), ...args);
+}
+
 async function mozjpegEncode(
   data: ImageData, options: import('../mozjpeg/encoder-meta').EncodeOptions,
 ): Promise<ArrayBuffer> {
