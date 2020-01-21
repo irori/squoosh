@@ -15,6 +15,8 @@ const AutoSWPlugin = require('./config/auto-sw-plugin');
 const CrittersPlugin = require('critters-webpack-plugin');
 const AssetTemplatePlugin = require('./config/asset-template-plugin');
 const addCssTypes = require('./config/add-css-types');
+const ZipPlugin = require('zip-webpack-plugin');
+const WebBundlePlugin = require('./config/web-bundle-plugin');
 
 const VERSION = require('./package.json').version;
 
@@ -298,6 +300,11 @@ module.exports = async function (_, env) {
         inlineFonts: true,
         // (and don't lazy load them):
         preloadFonts: false
+      }),
+
+      new WebBundlePlugin({
+        baseURL: 'https://squoosh.app/',
+        output: 'squoosh.wbn'
       })
     ].filter(Boolean), // Filter out any falsey plugin array entries.
 
